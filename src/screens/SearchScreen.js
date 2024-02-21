@@ -1,38 +1,39 @@
 import React, { useState } from "react";
-import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import useResults from "../hooks/useResults";
 import ResultsList from "../components/ResultsList";
 
 
-const SearchScreen = () => {
+const SearchScreen = ({navigation}) => {
     const [term, setTerm] = useState('');
     const [searchApi, results, errorMessage] = useResults();
 
-   const filterResultsByPrice = (price) => {
+    const filterResultsByPrice = (price) => {
         return results.filter(result => {
             return result.price === price;
         });
-   };
-    
-    return (
-        <ScrollView>
-            <View style={styles.view}>
-                <Text style={styles.text}>Find restaurants near you using the Yelp API.</Text>
-                <SearchBar  
-                    term={term} 
-                    onTermChange={(newTerm) => setTerm(newTerm)} 
-                    onTermSubmit={() => searchApi(term)}
-                />
-                {errorMessage ? <Text>Something went wrong!</Text> : null}
-                <Text>We have found {results.length} results.</Text>
+    };
 
-                <ResultsList title='Cheaper' results={filterResultsByPrice('$')} />
-                <ResultsList title='Average' results={filterResultsByPrice('$$')}/>
-                <ResultsList title='Costly' results={filterResultsByPrice('$$$')}/>
-                <ResultsList title='Too Much' results={filterResultsByPrice('$$$$')}/>
-            </View>
-        </ScrollView>
+    return (
+
+        <View style={styles.view}>
+            <Text style={styles.text}>Find restaurants near you using the Yelp API.</Text>
+            <SearchBar
+                term={term}
+                onTermChange={(newTerm) => setTerm(newTerm)}
+                onTermSubmit={() => searchApi(term)}
+            />
+            {errorMessage ? <Text style={styles.text}>Something went wrong!</Text> : null}
+            <Text style={styles.text}>We have found {results.length} results.</Text>
+            <ScrollView>
+                <ResultsList title='Cheaper' results={filterResultsByPrice('$')} navigation={navigation} />
+                <ResultsList title='Average' results={filterResultsByPrice('$$')} navigation={navigation} />
+                <ResultsList title='Costly' results={filterResultsByPrice('$$$')} navigation={navigation} />
+                <ResultsList title='Too Much' results={filterResultsByPrice('$$$$')} navigation={navigation} />
+            </ScrollView>
+        </View>
+
     )
 }
 
@@ -52,17 +53,18 @@ const fontSize = {
 
 const styles = StyleSheet.create({
     view: {
-        //flex: 1,
-        margin:15,
+        flex: 1,
+        // padding:15,
         // borderColor:'black',
         // borderWidth:3,
     },
     text: {
-        textAlign:'center',
+        // textAlign:'center',
         color: colors.text,
-        fontSize:fontSize.default,
-        paddingBottom: 7,
-    }
+        fontSize: fontSize.default,
+        paddingVertical: 7,
+        marginHorizontal: 15,
+    },
 });
 
 export default SearchScreen;

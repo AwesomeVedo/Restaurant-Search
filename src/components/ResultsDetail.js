@@ -1,5 +1,5 @@
 import React from "react";
-import {Text, Image, View, StyleSheet} from 'react-native';
+import {Text, Image, View, StyleSheet, Pressable} from 'react-native';
 
 const ResultsDetail = ({currentResult}) => {
     const name = currentResult.name;
@@ -9,12 +9,12 @@ const ResultsDetail = ({currentResult}) => {
 
     return (
         <View>
-            <Image 
-                source={{uri: image}}
-                style={styles.image}
-            />
-            <Text>{name}</Text>
-            <View><Text>{rating} Stars</Text><Text>{reviewCount} Reviews</Text></View>
+                <Image 
+                    source={{uri: image}}
+                    style={styles.image}
+                />
+                <Text style={styles.name}>{name}</Text>
+                <View style={styles.metaData}><Text>{rating} Stars, {reviewCount} Reviews</Text></View>
         </View>
     );
 };
@@ -23,7 +23,17 @@ const styles = StyleSheet.create({
     image: {
         height:120,
         width:250,
-        borderRadius:5
+        borderRadius:5,
+        marginHorizontal: 15,
+        marginBottom: 5,
+    },
+    name: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginHorizontal: 15,
+    },
+    metaData: {
+        marginHorizontal: 15,
     }
 });
 

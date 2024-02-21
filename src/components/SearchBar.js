@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         flexDirection: 'row',
         paddingHorizontal: 10,
+        marginHorizontal: 15,
     },
     textInput: {
         flex: 1,
